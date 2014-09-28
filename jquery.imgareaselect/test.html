@@ -1,0 +1,59 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="css/imgareaselect-default.css" />
+  <script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <script type="text/javascript" src="scripts/jquery.imgareaselect.pack.js"></script>
+</head>
+<script type="text/javascript">
+    function preview(img, selection){ 
+	    var scaleX = 100 / (selection.width || 1); 
+	    var scaleY = 100 / (selection.height || 1); 
+    	
+	    //动态小头像 获取当前选中框的宽度，高度，左边框，右边框 
+	    $('#view').css({                          //view是预览图像的id
+	    width: Math.round(scaleX * 300) + 'px', 
+	    height: Math.round(scaleY * 220) + 'px', 
+	    marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px', 
+	    marginTop: '-' + Math.round(scaleY * selection.y1) + 'px' 
+	    }); 
+    } 
+ 
+    //加载小头像 
+    $(document).ready(function () { 
+	    $('<div><img id="view" src="bee.jpg" style="position: relative;" /></div>') 
+	    .css({ 
+	    float: 'left', 
+	    position: 'relative', 
+	    overflow: 'hidden', 
+	    width: '100px', 
+	    height: '100px' 
+	    }) 
+	    .insertAfter('#biuuu'); //把新建元素放到 #biuuu 之后
+	    //.insertAfter($('#biuuu')); //把新建元素放到 #biuuu 之后
+    }); 
+ 
+    //初始化加载 
+    $(window).load(function () { 
+	    $('#biuuu').imgAreaSelect({ 
+		    aspectRatio: '1:1',  //截取比例
+		    show:true,
+		    resizable:true, //是否可调整大小
+		    autoHide: false,//选择框选择完毕是否自己取消 
+			handles:true,
+		    key:true, //是否启用键盘，默认为false
+		    //x1: 75, y1: 30, x2: 225, y2: 180, //需要处理的区域，原始的
+		    //x1:左上角x轴坐标 y1:左上角y轴坐标 x2:右下角x轴坐标 y2:右下角y轴坐标
+		    keys: { arrows: 1, ctrl: 5, shift: 'resize' }, //调整像素大小
+		    
+		    //onInit: function(img, selection) { ias.setSelection(100, 50, 250, 150, true); ias.update(); }, //设置初始函数 画出选择框 
+		    onSelectChange: preview  //选框移动时触发的事件
+		    //onSelectEnd: getLocation  //选框结束时触发的事件
+		    
+	    });
+	});
+</script>	
+<body>
+<div>
+    <img id="biuuu" src="bee.jpg" title="biuuu" width="320px" height="220px" style="float: left; margin-right: 10px;"/> 
+    <asp:Button ID="Button1" runat="server" Text="Button" onclick="Button1_Click" />
+</div>
+</body>
